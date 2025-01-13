@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "500442120800",
+    "project_id": "ocakfirebase",
+    "storage_bucket": "ocakfirebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:500442120800:android:0fc1b7c68a8ae5bea87905",
+        "android_client_info": {
+          "package_name": "com.turgut.firebase_baslangic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7sZhq6yJYVhZMHzYc3MXEpi2MHR8mN50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
