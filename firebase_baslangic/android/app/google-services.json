@@ -12,7 +12,20 @@
           "package_name": "com.turgut.firebase_baslangic"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "500442120800-phc589p75poo2laag222qe4je5odddr0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.turgut.firebase_baslangic",
+            "certificate_hash": "dd124ab054dd4ca4b7a441c3a16a5dfced6a6eaf"
+          }
+        },
+        {
+          "client_id": "500442120800-tuojs19n1vnpdn0dr1tq9ldfhuq2otji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA7sZhq6yJYVhZMHzYc3MXEpi2MHR8mN50"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "500442120800-tuojs19n1vnpdn0dr1tq9ldfhuq2otji.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "500442120800-14hc2qjrksu0l0op7ig7kpmh1297d90e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.turgut.firebaseBaslangic"
+              }
+            }
+          ]
         }
       }
     }

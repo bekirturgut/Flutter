@@ -1,0 +1,2 @@
+C:/Users/bekir/OneDrive/Desktop/Git/Flutter/firebase_baslangic/android/app/.cxx/Debug/483896d4/x86/CMakeFiles/edit_cache.dir
+C:/Users/bekir/OneDrive/Desktop/Git/Flutter/firebase_baslangic/android/app/.cxx/Debug/483896d4/x86/CMakeFiles/rebuild_cache.dir
