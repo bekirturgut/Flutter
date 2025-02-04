@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_baslangic/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -49,8 +50,15 @@ class _MyAppState extends State<MyApp> {
   });
   }
 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+
   @override
   Widget build(BuildContext context) {
+
+    //IDler
+    debugPrint("IDLER BURDA BAK BAK BAAAAAAK     ------${_firestore.collection('users').id}--------       ");
+    debugPrint("IDLER BURDA BAK BAK BAAAAAAK     ------${_firestore.collection('users').doc().id}--------       "); // burda verilen ıd veri ekleyeceksen bu ıd üzerinden eklenecek her yeniden başlatmada bu ıd değişir
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -64,11 +72,10 @@ class _MyAppState extends State<MyApp> {
     ),
     body: Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(child: Text(AnaEkranMesaj , style: TextStyle(color: Colors.black , fontSize: 20),textAlign: TextAlign.center,),
-          decoration: BoxDecoration(border: Border.all(color: Colors.black ,width: 2) , borderRadius: BorderRadius.circular(10))),
-          SizedBox(height: 75,),
+          Container(child: Column(children: [
+            Container(decoration: BoxDecoration(border: Border.all(color: Colors.black ,width: 2) , borderRadius: BorderRadius.circular(10)), child: Text(AnaEkranMesaj , style: TextStyle(color: Colors.black , fontSize: 20),textAlign: TextAlign.center,)),
+          SizedBox(height: 20,),
           ElevatedButton(onPressed: () {
             signGmail();
           }, child: Text("Gmail Giriş")),
@@ -96,7 +103,25 @@ class _MyAppState extends State<MyApp> {
           ElevatedButton(onPressed: () {
             changeEmail();
           }, child: Text("Email Değiştir")),
-          
+          ],),),
+          Text("--------------------------------------------------------------------------------------"),
+          Container(child: Column(),),
+          ElevatedButton(onPressed: (){
+            VeriEkleAdd();
+          }, child: Text("Veri Ekle Add")),
+          ElevatedButton(onPressed: (){
+            VeriEkleSet();
+          }, child: Text("Veri Ekle Set")),
+          ElevatedButton(onPressed: (){
+            VeriGuncelle();
+          }, child: Text("Veri Güncelle")),
+          ElevatedButton(onPressed: (){
+            VeriSil();
+          }, child: Text("Veri Sil")),
+          Text("--------------------------------------------------------------------------------------"),
+          ElevatedButton(onPressed: (){
+            VeriOkuOneTime();
+          }, child: Text("Veri Oku One Time")),
         ],
       ),
     ),
@@ -112,16 +137,16 @@ void LoginWithPhoneNumber() async{
       verificationCompleted: (PhoneAuthCredential credential) async{ // giriş başarılı ise seni bu bloğa yönlendirir ve sana credential verir
         await auth.signInWithCredential(credential);
         AnaEkranMesaj = "NUMARA İLE GİRİŞ BAŞARILI...";
-        print("GİRİŞ BAŞARILIIII......\n\n"+credential.toString()+"\n\n");
+        print("GİRİŞ BAŞARILIIII......\n\n$credential\n\n");
       }, 
       verificationFailed: (FirebaseAuthException e) {  // giriş başarısız ise sana hatayı döndürür ve bu bloğa gönderir
         AnaEkranMesaj = "HATA!!!";
       }, 
       codeSent: (String verificationId , int? resendToken) async{ // bu kısım kodu gönderdikten sonraki kısımdır kullanıcıya mesaj gönderilir ve ardından
                                                              // seni bu kod bloğuna yönlendirir sen burda kontrollerini yaparsın
-        String _smsCode = "031224";
-        var _credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: _smsCode);
-        await auth.signInWithCredential(_credential);
+        String smsCode = "031224";
+        var credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+        await auth.signInWithCredential(credential);
 
       },
       codeAutoRetrievalTimeout: (String verificationId) {
@@ -176,8 +201,8 @@ void LoginUserEmailAndPassword() async{
 }
 void SignOutUser() async{
   try{
-      var _user = GoogleSignIn().currentUser;
-      if(_user != null) {
+      var user = GoogleSignIn().currentUser;
+      if(user != null) {
         await GoogleSignIn().disconnect();
         print("ÇIKIŞ BAŞARILI ŞEKİLDE GERÇEKLEŞTİ...");
         AnaEkranMesaj = "ÇIKIŞ BAŞARILI...";
@@ -278,6 +303,41 @@ void signGmail() async{
       
     });
 }
+void VeriEkleAdd() async{
+  Map<String , dynamic> eklenecekUser = {};
+  eklenecekUser["isim"] = "BekirTurgutHapoğlu";
+  eklenecekUser["yas"] = 21;
+  eklenecekUser["ogrenciMi"] = true;
+  eklenecekUser["diller"] = FieldValue.arrayUnion(["C","C#","Python","Flutter","Dart","Java","Kotlin"]); // firebase de array list eklemek farklı onda bunu kullanırız.
+  eklenecekUser["olusmaZamani"] = FieldValue.serverTimestamp();  // servere eklenme tarihini ekler
+  await _firestore.collection("users").add(eklenecekUser);  // users isimli veri koleksiyonu varsa ekler yoksa yenisini tanımlar.
+}
+void VeriEkleSet() async{
+  //await _firestore.doc("users/kHELBoQP1qEI0BjzioYH").set({"okul" : "Necmettin Erbakan Üniversitesi"}); // var olan bilgileri siler ve verdiğin verileri yazar
+  await _firestore.doc("users/kHELBoQP1qEI0BjzioYH").set({"Bölüm" : "Bilgisayar Mühendisliği"} , SetOptions(merge: true)); // merge true sayesinde verileri sıfırlamaz verilen bilgileri ekstra ekler veri kaybı yaşanmaz
+}
+void VeriGuncelle() async{
+  await _firestore.doc("users/mtilNkGrU5FsVQnJxBoy").update({"isim":"Güncel Bekir","yas":"22","ogrenciMi":false}); // verilen ıd li kullanıcının verilerini bu şekilde guncelleyebiliriz
+  // eğer güncellenecek veri grubu yoksa yenisini oluşturur soyisim güncelledim ama soyisimi kayıtta yok , soyisim değişkeni oluşturur.
+  // ıd li kullanıcı yoksa hata verir
+}
+void VeriSil() async{
+  await _firestore.doc("users/9PpOWaZZGAEuxY6FqhfA").update({"isim": FieldValue.delete()}); // verilen ıd deki kullanıcının isim verisini sildi
+   await _firestore.doc("users/mtilNkGrU5FsVQnJxBoy").delete(); // verilen ıd deki kullanıcıyı tamamen sildi , ıd de kullanıcı yoksa hata vermiyor
+}
+void VeriOkuOneTime() async{
+  var usersDocuments = await _firestore.collection("users").get(); //users koleksiyonunu alıp bri değişkene atarız
+  debugPrint("BU KADAR VERİ VAR        --------"+usersDocuments.size.toString()+"---------           ");  // koleksiyonda kaç veri var onları yazdırırı.
+  for(var eleman in usersDocuments.docs)
+  {
+    debugPrint("Eleman id : ${eleman.id}");
+    for(var data in eleman.data().entries)
+    {
+      debugPrint("\t\tKey : ${data.key} ---------- Value : ${data.value}");
+    }
+  }
+
+}
 }
 
 // google ile giriş yapmadan önce terminalden cd android ile klasöre git ve .\gradlew signinReport kodunun çalıştır.
@@ -286,3 +346,5 @@ void signGmail() async{
 // sonra anroid gradle ve android/app gradle a eklentiler yapılıyor mauel olarak.
 // ama hata aldım ve baktım ki firebase yada flutter otomatikmen benim için eklemiş bile 
 // android/app build.gradle da MinSdk diye bir yer var orayı ya 21 yada 23 olarak değiştir
+
+// firestore veri eklemede şöyle bişi var veri eklemeyi public yapman lazım yoksa hata veriyor onu ileriki projelerinde düzeltirsin artık
