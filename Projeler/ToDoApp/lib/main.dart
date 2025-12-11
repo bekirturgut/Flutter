@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +8,6 @@ import 'package:todoapp/pages/home_page.dart';
 
 import 'data/local_storage.dart';
 import 'models/task_model.dart';
-
 
 final locator = GetIt.instance;
 
@@ -30,19 +28,19 @@ Future<void> setupHive() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   await EasyLocalization.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-
+    const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+  );
   await setupHive();
 
   setup();
   runApp(
-     EasyLocalization(
+    EasyLocalization(
       supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
-      path: 'assets/translations',  
+      path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
-      child: const MyApp()
+      child: const MyApp(),
     ),
   );
 }
@@ -61,9 +59,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         appBarTheme: const AppBarTheme(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.black)),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
       ),
       home: const HomePage(),
     );

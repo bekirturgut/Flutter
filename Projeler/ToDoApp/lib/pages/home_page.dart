@@ -115,18 +115,6 @@ class _HomePageState extends State<HomePage> {
               ),
               onSubmitted: (value) {
                 Navigator.of(context).pop();
-                if (value.length > 3) {
-                  DatePicker.showDatePicker(context: context,
-                      locale: TranslationHelper.getDeviceLanguage(context),
-                      showSecondsColumn: false, onConfirm: (time) async {
-                    var yeniEklenecekGorev =
-                        Task.create(name: value, createdAt: time);
-
-                    _allTasks.insert(0, yeniEklenecekGorev);
-                    await _localStorage.addTask(task: yeniEklenecekGorev);
-                    setState(() {});
-                  });
-                }
               },
             ),
           ),

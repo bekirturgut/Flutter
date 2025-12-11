@@ -1,5 +1,7 @@
 void main(List<String> args) {
-  //Asker emre = Asker();
+  Asker emre = Er("İbrahim", 22);
+  emre.Selamla();
+  
   Asker bekir = Asker("bekir", 21);
   bekir.Selamla();
 }
@@ -12,7 +14,7 @@ class Asker {
   }
 
   void Selamla() {
-    print("Merhaba benim adım $ad , yaşım $yas , Askerim...");
+    print("Merhaba benim adım $ad , yaşım $yas , Askerim...\n");
   }
 }
 
@@ -23,7 +25,7 @@ class Er extends Asker {
   }
 
   void Selamla() {
-    print("Merhaba benim adım $ad , yaşım $yas , Rütbem Er...");
+    print("Merhaba benim adım $ad , yaşım $yas , Rütbem Er...\n");
   }
 
   void isimdegistir(String yenisim) {

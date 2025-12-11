@@ -4,7 +4,7 @@ void main(List<String> args) {
   Araba senin = Araba.modelsiz(2024, "KAWASAKİ");
   senin.BilgileriVer();
   Araba onun = Araba.sadeceyil(2024);
-  onun.BilgileriVer();
+  onun.BilgileriVer();w
 }
 
 class Araba {
